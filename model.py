@@ -65,9 +65,7 @@ class MilgramModel(mesa.Model):
         k=0.09,
         seed=None,
     ):
-        # Mesa 3.x renamed Model's seeding kwarg from `seed` to `rng`; we keep
-        # `seed` in MilgramModel's own signature (streamlit_app.py depends on
-        # it) and just forward it under the new name here.
+
         super().__init__(rng=seed)
 
         self.proximity = proximity
