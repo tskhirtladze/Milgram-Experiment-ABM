@@ -6,6 +6,8 @@ The model is built with the [Mesa](https://mesa.readthedocs.io/) agent-based mod
 
 > **Important:** This is a stylized computational model, not a validated psychological simulation or an empirical replication of Milgram's experiments. The model is intended to explore how assumptions about authority, situational pressure, stress, peer influence, and proximity can produce patterns resembling published findings.
 
+**Try it live:** [milgram-experiment-abm-ts.streamlit.app](https://milgram-experiment-abm-ts.streamlit.app/)
+
 ## Why this project?
 
 Milgram's obedience experiments are often presented to students as a set of fixed experimental results. This project provides an interactive way to explore a different question:
