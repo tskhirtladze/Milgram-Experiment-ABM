@@ -26,12 +26,21 @@ A starting number that controls the "random dice rolls" behind the simulation (w
 
 These checkboxes pick which experimental setups to simulate. Each mirrors a real variation Milgram ran:
 
-- **Baseline (experimenter present):** the original setup - experimenter in the room, learner unseen. Published result: ~65% went all the way.
-- **Experimenter absent (phone):** the experimenter gives orders by phone instead of standing in the room. Published result: ~20.5%. (Without someone watching, people find it much easier to stop.)
-- **Learner visible (same room):** the person being "shocked" is in the same room, visible, instead of just heard through a wall. Published result: ~40%. (Seeing someone's distress makes it harder to continue.)
-- **Two peers rebel:** two other "teachers" (confederates) refuse to continue partway through. Published result: ~10%. (Watching someone else say no makes it much easier to also say no.)
+- **Baseline (experimenter present):** the original setup - experimenter in the room, learner unseen, no vocal feedback from the learner. Published result: ~65% went all the way.
+- **Experimenter absent (phone):** the experimenter gives orders by phone instead of standing in the room, no vocal feedback from the learner. Published result: ~20.5%. (Without someone watching, people find it much easier to stop.)
+- **Learner visible (same room):** the person being "shocked" is in the same room, visible, instead of just heard through a wall, with vocal feedback (grunts, cries, demands to be released, etc.) active. Published result: ~40%. (Seeing someone's distress makes it harder to continue.)
+- **Two peers rebel:** two other "teachers" (confederates) refuse to continue partway through, with vocal feedback active. Published result: ~10%. (Watching someone else say no makes it much easier to also say no.)
 
-**➕ Add a custom condition** lets you mix and match these three ingredients yourself (experimenter present/remote, learner visible or not, confederates present or not) to test combinations Milgram never actually ran.
+Two of these ingredients - vocal feedback and learner visibility - are set separately in the model, because Milgram's published obedience rates come from slightly different underlying procedures. The **Baseline** and **Experimenter absent** conditions correspond to Milgram's original "no vocal feedback" procedure; the **Learner visible** and **Two peers rebel** conditions are built on the "voice feedback" version (the version where you hear the learner grunt, cry out, and so on). This matters because a separate published condition with voice feedback but no other manipulation reports 62.5% obedience - noticeably lower than the 65% no-feedback baseline - showing the vocal-feedback mechanism itself has a real (if modest) effect on the simulated participants.
+
+**➕ Add a custom condition** lets you mix and match these ingredients yourself (experimenter present/remote, learner visible or not, confederates present or not, learner feedback on or off) to test combinations Milgram never actually ran.
+
+### Learner feedback (None / Voice)
+Controls whether the scripted sequence of learner reactions (grunt at 75V, shout of pain at 120V, demands to be released at 150V, ... ominous silence at 330V) is active for this condition.
+- **None:** the learner gives no scripted vocal reactions. Participants' stress only builds from the rising voltage itself, not from specific reaction milestones. Used for the two conditions calibrated against Milgram's no-feedback baseline.
+- **Voice:** the full reaction sequence is active, adding extra stress at each milestone voltage on top of the general rise from increasing intensity. Used for the two conditions built on Milgram's voice-feedback procedure.
+
+Switching a condition from "None" to "Voice" (or back) will change its simulated obedience rate somewhat, since the added stress from reaction milestones makes simulated participants a little more likely to refuse.
 
 ---
 
@@ -65,13 +74,13 @@ The two voltage levels at which the two peer confederates (in the "Two peers reb
 
 These are more technical "under the hood" numbers that control *how strongly* the situation shifts a participant's personal breaking point (the voltage at which they'd normally quit). You generally shouldn't need to touch these - they've already been tuned to reproduce Milgram's real percentages - but here's what they mean if you want to experiment:
 
-### Authority scale (0 – 1200, default 700)
+### Authority scale (0 – 1200, default 710)
 How big a push the experimenter's presence/pressure gives toward a *higher* breaking point (i.e., toward continuing longer). The app's own tooltip warns that values much above ~900 tend to force almost everyone to obey, regardless of anything else - so above that the authority effect basically overrides individual personality.
 
-### Confederate scale (0 – 1200, default 950)
+### Confederate scale (0 – 1200, default 940)
 Same idea, but for the effect of a peer defecting - how big a push it gives toward a *lower* breaking point (quitting sooner) once a confederate refuses. Values much above ~1000 tend to force almost everyone to quit as soon as a peer does.
 
-### Learner-visible shift (-500 – 0, default -150)
+### Learner-visible shift (-500 – 0, default -140)
 A flat shift *downward* applied to the breaking point when the learner is visible in the room. It's restricted to negative numbers (or zero) because seeing the learner's distress should only ever make people *more* likely to stop, never less.
 
 ### Disposition center (low) (-500 – 100, default -250)

@@ -1,0 +1,72 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Milgram Obedience Experiment: An Agent-Based Model"
+abstract: >-
+  An open, interactive agent-based model exploring the relationship between
+  Milgram's obedience experiments, computational modelling, model
+  assumptions, and reproducibility. Built with the Mesa agent-based
+  modelling framework, with an interactive Streamlit application and a
+  reproducible batch experiment.
+authors:
+  - family-names: "Skhirtladze"
+    given-names: "Tornike"
+type: software
+version: 1.0.0
+date-released: "2026-09-12"
+repository-code: "https://github.com/tskhirtladze/Milgram-Experiment-ABM"
+license: MIT
+keywords:
+  - agent-based modelling
+  - Milgram experiment
+  - obedience
+  - computational social science
+  - reproducibility
+  - open science
+  - Mesa
+  - Streamlit
+references:
+  - type: article
+    authors:
+      - family-names: "Milgram"
+        given-names: "Stanley"
+    title: "Behavioral study of obedience"
+    journal: "The Journal of Abnormal and Social Psychology"
+    volume: 67
+    issue: 4
+    start: 371
+    end: 378
+    year: 1963
+    doi: "10.1037/h0040525"
+  - type: book
+    authors:
+      - family-names: "Milgram"
+        given-names: "Stanley"
+    title: "Obedience to Authority: An Experimental View"
+    publisher:
+      name: "Harper & Row"
+    year: 1974
+  - type: article
+    authors:
+      - family-names: "Haslam"
+        given-names: "Nick"
+      - family-names: "Loughnan"
+        given-names: "Steve"
+      - family-names: "Perry"
+        given-names: "Gina"
+    title: "Meta-Milgram: An empirical synthesis of the obedience experiments"
+    journal: "PLoS ONE"
+    volume: 9
+    issue: 4
+    year: 2014
+    doi: "10.1371/journal.pone.0093927"
+  - type: article
+    authors:
+      - family-names: "Gibson"
+        given-names: "Stephen"
+    title: >-
+      'We have a choice': Identity construction and the rhetorical enactment
+      of resistance in the 'two peers rebel' condition of Stanley Milgram's
+      obedience experiment
+    journal: "European Journal of Social Psychology"
+    year: 2022
+    doi: "10.1002/ejsp.2734"

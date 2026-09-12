@@ -1,5 +1,3 @@
-
-
 import math
 import random
 import mesa
@@ -8,8 +6,13 @@ import mesa
 SHOCK_LEVELS = list(range(15, 465, 15))
 
 # Voltage thresholds at which the (scripted) learner reacts -- based on the
-# real experimental script, compressed to the key turning points.
-LEARNER_REACTIONS = {
+# real experimental script, compressed to the key turning points. This is the
+# "voice feedback" reaction set. The "no feedback" set is empty, representing
+# Milgram's remote/no-vocal-feedback baseline condition (see README).
+
+NO_FEEDBACK_REACTIONS = {}
+
+VOICE_FEEDBACK_REACTIONS = {
     75: "grunt",
     120: "shout of pain",
     150: "demands to be released",
@@ -97,23 +100,35 @@ class ParticipantAgent(mesa.Agent):
         stress_weight=0.6,
         authority_weight=0.9,
         confederate_penalty=0.35,
+        learner_feedback="voice",
     ):
         super().__init__(model)
         # Baseline personal disposition toward obeying authority (0=defiant, 1=compliant)
         self.obedience_threshold = (
             obedience_threshold
             if obedience_threshold is not None
-            else random.uniform(0.1, 0.9)
+            else self.random.uniform(0.1, 0.9)
         )
         self.stress_weight = stress_weight
         self.authority_weight = authority_weight
         self.confederate_penalty = confederate_penalty
+
+        if learner_feedback not in ("none", "voice"):
+            raise ValueError("learner_feedback must be 'none' or 'voice'")
+        self.learner_feedback = learner_feedback
 
         self.stress_level = 0.0
         self.prods_used = 0
         self.has_quit = False
         self.max_shock_given = 0
         self.quit_voltage = None
+
+    @property
+    def learner_reactions(self):
+        """The active reaction schedule, based on this participant's
+        learner_feedback condition ('none' -> no vocal reactions at all,
+        'voice' -> the full scripted reaction sequence)."""
+        return VOICE_FEEDBACK_REACTIONS if self.learner_feedback == "voice" else NO_FEEDBACK_REACTIONS
 
     def _compliance_probability(self, voltage, experimenter, confederate_defected):
         """
@@ -138,7 +153,7 @@ class ParticipantAgent(mesa.Agent):
 
         # Stress rises with voltage and spikes at learner-reaction milestones
         intensity = voltage / max_v
-        reaction_bump = 0.12 if voltage in LEARNER_REACTIONS else 0.0
+        reaction_bump = 0.12 if voltage in self.learner_reactions else 0.0
         self.stress_level = min(1.0, self.stress_level + intensity / 45 + reaction_bump)
 
         # Personal breaking point: disposition maps onto where on the voltage
@@ -188,7 +203,7 @@ class ParticipantAgent(mesa.Agent):
 
         p_continue = self._compliance_probability(voltage, experimenter, confederate_defected)
 
-        if random.random() < p_continue:
+        if self.model.random.random() < p_continue:
             # Complies: administers this shock
             self.max_shock_given = voltage
             self.prods_used = 0  # reset prod counter after successful compliance
@@ -198,7 +213,7 @@ class ParticipantAgent(mesa.Agent):
                 self.prods_used += 1
                 # Re-roll once with the added pressure from this prod
                 p_retry = self._compliance_probability(voltage, experimenter, confederate_defected)
-                if random.random() < p_retry:
+                if self.model.random.random() < p_retry:
                     self.max_shock_given = voltage
                     self.prods_used = 0
                 else:

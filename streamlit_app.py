@@ -1,5 +1,3 @@
-
-
 import statistics as stats
 
 import matplotlib.pyplot as plt
@@ -32,19 +30,23 @@ except ModuleNotFoundError as e:
 # --------------------------------------------------------------------------
 STANDARD_CONDITIONS = {
     "Baseline (experimenter present)": dict(
-        params=dict(proximity="present", learner_visible=False, use_confederates=False),
+        params=dict(proximity="present", learner_visible=False, use_confederates=False,
+                    learner_feedback="none"),
         published_pct=65.0,
     ),
     "Experimenter absent (phone)": dict(
-        params=dict(proximity="remote", learner_visible=False, use_confederates=False),
+        params=dict(proximity="remote", learner_visible=False, use_confederates=False,
+                    learner_feedback="none"),
         published_pct=20.5,
     ),
     "Learner visible (same room)": dict(
-        params=dict(proximity="present", learner_visible=True, use_confederates=False),
+        params=dict(proximity="present", learner_visible=True, use_confederates=False,
+                    learner_feedback="voice"),
         published_pct=40.0,
     ),
     "Two peers rebel": dict(
-        params=dict(proximity="present", learner_visible=False, use_confederates=True),
+        params=dict(proximity="present", learner_visible=False, use_confederates=True,
+                    learner_feedback="voice"),
         published_pct=10.0,
     ),
 }
@@ -78,6 +80,12 @@ with st.sidebar.expander("➕ Add a custom condition"):
     )
     custom_visible = st.checkbox("Learner visible (same room)", key="custom_visible")
     custom_confed = st.checkbox("Confederates present", key="custom_confed")
+    custom_feedback = st.selectbox(
+        "Learner feedback",
+        options=["none", "voice"],
+        format_func=lambda x: {"none": "No vocal feedback", "voice": "Voice feedback"}[x],
+        key="custom_feedback",
+    )
     custom_published = st.number_input(
         "Published/expected obedience % (optional, for comparison)",
         min_value=0.0, max_value=100.0, value=0.0, step=0.5, key="custom_published",
@@ -89,6 +97,7 @@ with st.sidebar.expander("➕ Add a custom condition"):
                     proximity=custom_proximity,
                     learner_visible=custom_visible,
                     use_confederates=custom_confed,
+                    learner_feedback=custom_feedback,
                 ),
                 published_pct=custom_published if custom_published > 0 else None,
             )
@@ -137,17 +146,17 @@ confed_v1, confed_v2 = st.sidebar.slider(
 
 with st.sidebar.expander("⚙️ Situational-effect magnitudes (calibrated defaults)"):
     authority_scale = st.slider(
-        "Authority scale", min_value=0, max_value=1200, value=700, step=10,
+        "Authority scale", min_value=0, max_value=1200, value=710, step=10,
         help="Magnitude of the authority-pressure shift on the breaking point. "
              "Values much above ~900 tend to force near-100% obedience regardless of other settings.",
     )
     confederate_scale = st.slider(
-        "Confederate scale", min_value=0, max_value=1200, value=950, step=10,
+        "Confederate scale", min_value=0, max_value=1200, value=940, step=10,
         help="Magnitude of the peer-defection shift on the breaking point. "
              "Values much above ~1000 tend to force near-0% obedience once a confederate defects.",
     )
     visible_shift = st.slider(
-        "Learner-visible shift", min_value=-500, max_value=0, value=-150, step=10,
+        "Learner-visible shift", min_value=-500, max_value=0, value=-140, step=10,
         help="Shift applied to the breaking point when the learner is visible.",
     )
     center_lo = st.slider(

@@ -1,5 +1,3 @@
-
-
 import mesa
 import pandas as pd
 
@@ -53,9 +51,9 @@ class MilgramModel(mesa.Model):
         experimenter_base_pressure=0.5,
         use_confederates=False,
         confederate_defect_voltages=(150, 210),
-        authority_scale=700,
-        confederate_scale=950,
-        visible_shift=-150,
+        authority_scale=710,
+        confederate_scale=940,
+        visible_shift=-140,
         center_lo=-250,
         center_span=800,
         obedience_threshold_range=(0.1, 0.9),
@@ -63,10 +61,15 @@ class MilgramModel(mesa.Model):
         authority_weight=0.9,
         confederate_penalty=0.35,
         k=0.09,
+        learner_feedback="voice",
         seed=None,
     ):
 
         super().__init__(rng=seed)
+
+        if learner_feedback not in ("none", "voice"):
+            raise ValueError("learner_feedback must be 'none' or 'voice'")
+        self.learner_feedback = learner_feedback
 
         self.proximity = proximity
         self.learner_visible = learner_visible
@@ -101,6 +104,7 @@ class MilgramModel(mesa.Model):
                 stress_weight=stress_weight,
                 authority_weight=authority_weight,
                 confederate_penalty=confederate_penalty,
+                learner_feedback=self.learner_feedback,
             )
             for _ in range(n_participants)
         ]

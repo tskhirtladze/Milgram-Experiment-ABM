@@ -1,5 +1,3 @@
-
-
 import os
 import statistics as stats
 import pandas as pd
@@ -13,13 +11,17 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 CONDITIONS = [
     ("Baseline (experimenter present)",
-     dict(proximity="present", learner_visible=False, use_confederates=False), 65.0),
+     dict(proximity="present", learner_visible=False, use_confederates=False,
+          learner_feedback="none"), 65.0),
     ("Experimenter absent (phone)",
-     dict(proximity="remote", learner_visible=False, use_confederates=False), 20.5),
+     dict(proximity="remote", learner_visible=False, use_confederates=False,
+          learner_feedback="voice"), 20.5),
     ("Learner visible (same room)",
-     dict(proximity="present", learner_visible=True, use_confederates=False), 40.0),
+     dict(proximity="present", learner_visible=True, use_confederates=False,
+          learner_feedback="voice"), 40.0),
     ("Two peers rebel",
-     dict(proximity="present", learner_visible=False, use_confederates=True), 10.0),
+     dict(proximity="present", learner_visible=False, use_confederates=True,
+          learner_feedback="voice"), 10.0),
 ]
 
 N_PARTICIPANTS = 60
@@ -131,7 +133,6 @@ def make_dropout_chart(dropout_curves):
     fig.savefig(os.path.join(OUT_DIR, "dropout_curve.png"), dpi=150)
     plt.close(fig)
 
-c
 if __name__ == "__main__":
     run_all()
     print(f"\nDone. Outputs written to: {OUT_DIR}")
