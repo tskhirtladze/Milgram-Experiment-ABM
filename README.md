@@ -477,13 +477,17 @@ Instead, it uses the published experimental patterns as an opportunity to examin
 
 If you use this software in research, teaching, presentations, or other work, please cite the version of the software that you used.
 
-A versioned DOI will be provided through Zenodo.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22724177.svg)](https://doi.org/10.5281/zenodo.22724177)
+
+Skhirtladze, T. (2026). Milgram Obedience Experiment: An Agent-Based Model (Version v1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.22724177
 
 For software citation, the repository also includes a `CITATION.cff` file when available.
 
 ## License
 
-This project is intended to be openly reusable for research, teaching, and educational purposes.
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for the full text.
 
 See the repository license for the exact terms.
 
