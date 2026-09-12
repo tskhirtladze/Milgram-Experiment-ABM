@@ -483,7 +483,7 @@ If you use this software in research, teaching, presentations, or other work, pl
 
 Skhirtladze, T. (2026). Milgram Obedience Experiment: An Agent-Based Model (Version v1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.22724177
 
-For software citation, the repository also includes a `CITATION.cff` file when available.
+For software citation, the repository also includes a `CITATION.cff` file.
 
 ## License
 
